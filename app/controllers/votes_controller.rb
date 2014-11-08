@@ -4,6 +4,7 @@ class VotesController < ApplicationController
   before_action :redirect_root_with_alert, unless: :current_user_voting?, only: %i(edit show)
 
   def new
+    redirect_to :root, alert: 'あなたは既に投票済みです。編集は以下のリンクから行ってください。' if user_voted?
     @vote = Vote.new
   end
 
@@ -61,5 +62,9 @@ class VotesController < ApplicationController
 
   def redirect_root_with_alert
     redirect_to root_path, alert: '他の方の投票を見る事はできません！'
+  end
+
+  def user_voted?
+    Vote.where(voting_member_id: current_user.id).length != 0
   end
 end
