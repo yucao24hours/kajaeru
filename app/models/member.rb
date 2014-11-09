@@ -3,4 +3,8 @@ class Member < ActiveRecord::Base
   validates :provider, presence: true
   validates :uid,      presence: true, uniqueness: true
   validates :image,    presence: true, uniqueness: true
+
+  def casted_vote?
+    Vote.exists?(voting_member_id: id)
+  end
 end
