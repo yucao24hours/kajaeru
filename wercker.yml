@@ -6,8 +6,8 @@ ruby: 2.3.0
 box: ruby
 # You can also use services such as databases. Read more on our dev center:
 # http://devcenter.wercker.com/docs/services/index.html
-# services:
-    # - postgres
+services:
+  - postgres
     # http://devcenter.wercker.com/docs/services/postgresql.html
 
     # - mongodb
@@ -24,13 +24,19 @@ build:
     - script:
         name: bundle - nokogiri use sys lib
         code: bundle config build.nokogiri --use-system-libraries
+
     - bundle-install
+    - rails-database-yml:
+      service: postgresql-docker
+
     - script:
-        name: database settings
-        code: |
-          cp ./config/database.yml.sample ./config/database.yml
-          RAILS_ENV=test rails db:migrate --trace
-          bundle exec rake db:seed
+        name: set up database
+        code: RAILS_ENV=test bundle exec rake db:schema:load
+
+    - script:
+        name: insert test data
+        code: bundle exec rake db:seed
+
     - script:
         name: cucumber features
         code: bundle exec cucumber
