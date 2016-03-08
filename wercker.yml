@@ -28,7 +28,8 @@ build:
     - script:
         name: database settings
         code: |
-          RAILS_ENV=test bundle exec rake db:migrate --trace
+          cp ./config/database.yml.sample ./config/database.yml
+          RAILS_ENV=test rails db:migrate --trace
           bundle exec rake db:seed
     - script:
         name: cucumber features
