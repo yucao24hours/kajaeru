@@ -17,15 +17,21 @@ box: ruby
 # Read more about pipelines on our dev center
 # http://devcenter.wercker.com/docs/pipelines/index.html
 build:
-    # Steps make up the actions in your pipeline
-    # Read more about steps on our dev center:
-    # http://devcenter.wercker.com/docs/steps/index.html
-    steps:
-        - bundle-install
-        - script:
-            name: database setting
-            code: |
-              RAILS_ENV=test bundle exec rake db:migrate --trace
-              bundle exec rake db:seed 
-            name: cucumber
-            code: bundle exec cucumber
+  # Steps make up the actions in your pipeline
+  # Read more about steps on our dev center:
+  # http://devcenter.wercker.com/docs/steps/index.html
+  steps:
+    - script:
+        name: bundle - nokogiri use sys lib
+        code: bundle config build.nokogiri --use-system-libraries
+
+    bundle-install
+
+    - script:
+        name: database settings
+        code: |
+          RAILS_ENV=test bundle exec rake db:migrate --trace
+          bundle exec rake db:seed
+    - script:
+        name: cucumber features
+        code: bundle exec cucumber
