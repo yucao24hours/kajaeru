@@ -34,7 +34,6 @@ group :development do
     gem 'cucumber-rails', require: false
     gem 'pry-byebug'
     gem 'pry-rails'
-    gem 'rspec-rails'
   end
 end
 
