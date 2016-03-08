@@ -24,9 +24,7 @@ build:
     - script:
         name: bundle - nokogiri use sys lib
         code: bundle config build.nokogiri --use-system-libraries
-
-    bundle-install
-
+    - bundle-install
     - script:
         name: database settings
         code: |
