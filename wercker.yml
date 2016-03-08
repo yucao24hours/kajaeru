@@ -31,7 +31,7 @@ build:
 
     - script:
         name: set up database
-        code: RAILS_ENV=test bundle exec rake db:schema:load
+        code: RAILS_ENV=test bundle exec rake db:migrate
 
     - script:
         name: insert test data
